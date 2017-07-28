@@ -13,7 +13,9 @@ export class ProblemListComponent implements OnInit {
   constructor(@Inject('data') private dataService) { }
 
   ngOnInit() {
-    this.problems = this.dataService.getProblems();
+    // this.problems = this.dataService.getProblems();
+    this.dataService.getProblems()
+      .subscribe(problems => this.problems = problems );
   }
 
 }
