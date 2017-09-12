@@ -1,7 +1,5 @@
 # COJ
-
 How do I get set up?
-# Summary of set up for first Project: Collaborative Online Judge
 
 # update
 sudo apt-get update
