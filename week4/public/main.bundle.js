@@ -666,7 +666,7 @@ var AuthService = (function () {
             domain: 'xinxinwang.auth0.com',
             responseType: 'token id_token',
             audience: 'https://xinxinwang.auth0.com/userinfo',
-            redirectUri: 'http://localhost:3000',
+            redirectUri: 'http://34.229.58.27:3000',
             scope: 'openid profile'
         });
         this.userProfile.next(JSON.parse(localStorage.getItem('profile')));

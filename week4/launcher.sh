@@ -14,7 +14,7 @@ fi
 
 cd ../oj-client
 npm install
-#ng build --watch &
+ng build --watch &
 cd ../executors
 pip install -r requirements.txt
 python executor_server.py 5000 &
