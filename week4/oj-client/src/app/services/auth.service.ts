@@ -18,7 +18,7 @@ export class AuthService {
     domain: 'xinxinwang.auth0.com',
     responseType: 'token id_token',
     audience: 'https://xinxinwang.auth0.com/userinfo',
-    redirectUri: 'http://localhost:3000',      
+    redirectUri: 'http://0.0.0.0:3000',      
     scope: 'openid profile'
   });
 

@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 
 const mongoose = require('mongoose');
+
+// TODO config
 mongoose.connect('mongodb://user:user@ds161162.mlab.com:61162/cs503')
 const restRouter = require('./routes/rest');
 const indexRouter = require('./routes/index');

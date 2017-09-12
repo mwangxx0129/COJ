@@ -27,4 +27,4 @@ if __name__ == '__main__':
     import sys
     port = int(sys.argv[1])
     eu.load_image()
-    app.run(port=port)
+    app.run(host='0.0.0.0', port=port)
