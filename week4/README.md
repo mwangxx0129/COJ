@@ -1,8 +1,8 @@
 # COJ
-For mysef or who are also lazy on rehanding work and want to deploy easily.
-Step 1,2 is generic on EC2, step 3,4 is for my own preject COJ.
-Welcome to talk with me about problems, mistakes, and doc-self.
-[demo](http://34.229.58.27:3000)
+This project is to build a web app that people can add their coding problems and edit the code on the same page just like google doc.
+Click here to see the [demo](http://34.229.58.27:3000). 
+You can share the problem url with others so that everyone who has the link can editor on the same page.
+
 ## Content
 + 1. Setup AWS EC2 ubuntu 16.04
 + 2. Config Linux environment
