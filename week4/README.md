@@ -20,7 +20,6 @@ Welcome to talk with me about problems, mistakes, and doc-self.
 ---
 ## 2. Config Linux environment
 + AWS Linux 16.04
-
 * [Set Up Environment](set_up_env.md)
 + (optioinal)Local Linux
 * [Set Up Environment](set_up_env.md)
