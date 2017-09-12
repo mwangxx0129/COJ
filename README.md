@@ -77,6 +77,10 @@ sudo apt-get update
 
 sudo apt-get install nginx
 
+# Trouble shooting
+## redis
+sudo apt-get install make
 
+sudo apt-get install build-essential
 
 
