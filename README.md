@@ -9,6 +9,20 @@ sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode s
 sudo apt-get update
 sudo apt-get install code # or code-insiders
 ```
+# Install google-chrome-stable
+- Add Key:
+```
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+```
+- Set repository:
+```
+echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list
+```
+- Install package:
+```
+sudo apt-get update 
+sudo apt-get install google-chrome-stable
+```
 
 # COJ
 How do I get set up?
