@@ -15,7 +15,10 @@ export class ProblemListComponent implements OnInit {
   ngOnInit() {
     // this.problems = this.dataService.getProblems();
     this.dataService.getProblems()
-      .subscribe(problems => this.problems = problems );
+      .subscribe(problems => {
+        this.problems = problems
+        console.log(this.problems);
+      } );
   }
 
 }

@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { ProblemListComponent } from './components/problem-list/problem-list.component';
 import { ProblemDetailComponent } from './components/problem-detail/problem-detail.component';
 
-import { AuthService } from "app/services/auth.service";
 import { DataService } from "app/services/data.service";
 
 import { routing } from "app/app.routes";
@@ -34,8 +33,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     {
       provide: 'data',
       useClass: DataService
-    },
-    AuthService
+    }
   ],
   bootstrap: [AppComponent]
 })

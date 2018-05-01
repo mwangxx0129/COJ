@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AuthService } from '../../services/auth.service';
-
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -10,20 +8,15 @@ import { AuthService } from '../../services/auth.service';
 export class NavbarComponent implements OnInit {
   title: string = 'COJ';
   profile: any;
-  constructor(private auth: AuthService) {
-    this.auth.userProfile.subscribe(
-      profile => this.profile = profile
-    );
+  constructor() {
    }
 
   ngOnInit() {
   }
   
   login() {
-    this.auth.login();
   }
 
   logout() {
-    this.auth.logout();
   }
 }
