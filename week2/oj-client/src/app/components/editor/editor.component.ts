@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CollaborationService } from '../../services/collaboration.service';
+import { ActivatedRoute, Params } from '@angular/router';
 declare const ace: any;
 
 
@@ -9,11 +10,12 @@ declare const ace: any;
   styleUrls: ['./editor.component.css']
 })
 export class EditorComponent implements OnInit {
+  sessionId: string;
   editor: any;
   language: any = 'Java';
-  languages: String[] = ['Java', 'Python'];
+  languages: string[] = ['Java', 'Python'];
 
-  output: String = '';
+  output: string = '';
 
   defaultContent = {
 'Java': `public class Solution {
@@ -25,11 +27,14 @@ export class EditorComponent implements OnInit {
   def example:
     print('Hello Python')`
   };
-  constructor(private collaboration: CollaborationService) { }
+  constructor(private collaboration: CollaborationService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.initEditor();
-    this.collaboration.init();
+    this.route.params.subscribe(params => {
+      this.sessionId = params['id'];
+      this.initEditor();
+    })
+    
   }
 
   initEditor() {
@@ -37,6 +42,16 @@ export class EditorComponent implements OnInit {
     this.editor.setTheme('ace/theme/eclipse');
     this.resetEditor();
     document.getElementsByTagName('textarea')[0].focus();
+    this.collaboration.init(this.editor, this.sessionId);
+    this.editor.lastAppliedChange = null;
+
+    this.editor.on("change", (e) => {
+      console.log('editor change: ' + JSON.stringify(e));
+      if (this.editor.lastAppliedChange != e) {
+        this.collaboration.change(JSON.stringify(e));
+      }
+    })
+    
   }
 
   resetEditor(): void {

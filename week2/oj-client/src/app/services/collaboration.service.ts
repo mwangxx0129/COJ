@@ -9,10 +9,17 @@ export class CollaborationService {
   
   constructor() { }
 
-  init(): void {
-    this.collaborationSocket = io(window.location.origin, {query: 'message=message from client'});
-    this.collaborationSocket.on("message", (message) => {
-      console.log('message received from the server: ' + message);
+  init(editor: any, sessionId: string): void {
+    this.collaborationSocket = io(window.location.origin, {query: 'sessionId=' + sessionId});
+    this.collaborationSocket.on("change", (delta: string) => {
+      console.log('collabration: editor changes by ' + delta);
+      delta = JSON.parse(delta); // delta is json format
+      editor.lastAppliedChange = delta;
+      editor.getSession().getDocument().applyDeltas([delta]);
     })
+  }
+
+  change(delta: string): void {
+    this.collaborationSocket.emit('change', delta);
   }
 }
