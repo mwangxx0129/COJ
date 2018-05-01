@@ -88,6 +88,8 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_app_routes__ = __webpack_require__("../../../../../src/app/app.routes.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_new_problem_new_problem_component__ = __webpack_require__("../../../../../src/app/components/new-problem/new-problem.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_navbar_navbar_component__ = __webpack_require__("../../../../../src/app/components/navbar/navbar.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_editor_editor_component__ = __webpack_require__("../../../../../src/app/components/editor/editor.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__services_collaboration_service__ = __webpack_require__("../../../../../src/app/services/collaboration.service.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -95,6 +97,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -118,7 +122,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_5__components_problem_list_problem_list_component__["a" /* ProblemListComponent */],
             __WEBPACK_IMPORTED_MODULE_6__components_problem_detail_problem_detail_component__["a" /* ProblemDetailComponent */],
             __WEBPACK_IMPORTED_MODULE_9__components_new_problem_new_problem_component__["a" /* NewProblemComponent */],
-            __WEBPACK_IMPORTED_MODULE_10__components_navbar_navbar_component__["a" /* NavbarComponent */]
+            __WEBPACK_IMPORTED_MODULE_10__components_navbar_navbar_component__["a" /* NavbarComponent */],
+            __WEBPACK_IMPORTED_MODULE_11__components_editor_editor_component__["a" /* EditorComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -130,7 +135,8 @@ AppModule = __decorate([
             {
                 provide: 'data',
                 useClass: __WEBPACK_IMPORTED_MODULE_7_app_services_data_service__["a" /* DataService */]
-            }
+            },
+            __WEBPACK_IMPORTED_MODULE_12__services_collaboration_service__["a" /* CollaborationService */]
         ],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* AppComponent */]]
     })
@@ -171,6 +177,100 @@ var routing = __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* RouterModule 
     }
 ]);
 //# sourceMappingURL=app.routes.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/editor/editor.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, " \n@media screen {\n    #editor {\n      height: 600px;\n    }\n    .lang-select { \n      width: 100px; \n      margin-right: 10px; \n    } \n    \n    header .btn { \n      margin: 0 5px; \n    } \n    \n    footer .btn { \n      margin: 0 5px; \n    } \n    \n    .editor-footer, .editor-header { \n      margin: 10px 0; \n    } \n    \n    .cursor { \n      /*position:absolute;*/ \n      background: rgba(0, 250, 0, 0.5); \n      z-index: 40; \n      width: 2px!important \n    } \n}\n\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/editor/editor.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<section>\n    <header>\n        <select class=\"form-control pull-left lang-select\" id=\"language\" \n            name=\"language\" \n            [(ngModel)]=\"language\"\n            (change)=\"setLanguage()\">\n            <option *ngFor=\"let language of languages\" \n            [value]=\"language\">\n                {{language}}\n            </option>\n        </select>\n\n         <!-- Button trigger modal -->\n         <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#myModal\">\n                <span class=\"glyphicon glyphicon-refresh\" aria-hidden=\"true\"></span>\n        </button>\n    \n        <!-- Modal -->\n        <div class=\"modal fade\" id=\"myModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n            <div class=\"modal-dialog\" role=\"document\">\n                <div class=\"modal-content\">\n                <div class=\"modal-header\">\n                    <h5 class=\"modal-title\" id=\"exampleModalLabel\">Reset to default code definition</h5>\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                    <span aria-hidden=\"true\">&times;</span>\n                    </button>\n                </div>\n                <div class=\"modal-body\">\n                    Are you sure you want to reset your code?\n                </div>\n                <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-secondary pull-left\" data-dismiss=\"modal\">Close</button>\n                    <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"resetEditor()\">Reset</button>\n                </div>\n                </div>\n            </div>\n        </div>\n    </header>\n\n    <div id=\"editor\"></div>\n    <div>\n        {{output}}\n    </div>\n\n    <footer> \n        <button type=\"button\" class=\"btn btn-success pull-right\" (click)=\"submit()\">\n            Submit Solution\n        </button>\n    </footer>\n</section> \n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/editor/editor.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_collaboration_service__ = __webpack_require__("../../../../../src/app/services/collaboration.service.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EditorComponent; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var EditorComponent = (function () {
+    function EditorComponent(collaboration) {
+        this.collaboration = collaboration;
+        this.language = 'Java';
+        this.languages = ['Java', 'Python'];
+        this.output = '';
+        this.defaultContent = {
+            'Java': "public class Solution {\n    public static void main(String[] args) {\n      System.out.println(\"Hello Java\");\n    }\n}",
+            'Python': "class Solution:\n  def example:\n    print('Hello Python')"
+        };
+    }
+    EditorComponent.prototype.ngOnInit = function () {
+        this.initEditor();
+        this.collaboration.init();
+    };
+    EditorComponent.prototype.initEditor = function () {
+        this.editor = ace.edit('editor');
+        this.editor.setTheme('ace/theme/eclipse');
+        this.resetEditor();
+        document.getElementsByTagName('textarea')[0].focus();
+    };
+    EditorComponent.prototype.resetEditor = function () {
+        console.log('Resseting editor...');
+        this.editor.session.setMode("ace/mode/" + this.language.toLowerCase());
+        this.editor.setValue(this.defaultContent[this.language]);
+        this.output = '';
+    };
+    EditorComponent.prototype.setLanguage = function () {
+        this.resetEditor();
+    };
+    EditorComponent.prototype.submit = function () {
+        this.output = '';
+        var userCode = this.editor.session.getValue();
+        console.log(userCode);
+    };
+    return EditorComponent;
+}());
+EditorComponent = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
+        selector: 'app-editor',
+        template: __webpack_require__("../../../../../src/app/components/editor/editor.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/components/editor/editor.component.css")]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_collaboration_service__["a" /* CollaborationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_collaboration_service__["a" /* CollaborationService */]) === "function" && _a || Object])
+], EditorComponent);
+
+var _a;
+//# sourceMappingURL=editor.component.js.map
 
 /***/ }),
 
@@ -341,7 +441,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/problem-detail/problem-detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class = \"container\" *ngIf = \"problem\">\n  <div class=\"col-xs-12 col-md-4\">\n    <h2>\n      {{problem.id}}. {{problem.name}}\n    </h2>\n    <p>\n      {{problem.desc}}\n    </p>\n\n  </div>\n</div>"
+module.exports = "<div class = \"container\" *ngIf = \"problem\">\n  <div class=\"col-xs-12 col-md-4\">\n    <h2>\n      {{problem.id}}. {{problem.name}}\n    </h2>\n    <p>\n      {{problem.desc}}\n    </p>\n  </div>\n  <div class=\"hidden-xs col-sm-12 col-md-8\">\n    <app-editor></app-editor>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -466,6 +566,42 @@ ProblemListComponent = __decorate([
 ], ProblemListComponent);
 
 //# sourceMappingURL=problem-list.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/services/collaboration.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CollaborationService; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var CollaborationService = (function () {
+    function CollaborationService() {
+    }
+    CollaborationService.prototype.init = function () {
+        this.collaborationSocket = io(window.location.origin, { query: 'message=message from client' });
+        this.collaborationSocket.on("message", function (message) {
+            console.log('message received from the server: ' + message);
+        });
+    };
+    return CollaborationService;
+}());
+CollaborationService = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(),
+    __metadata("design:paramtypes", [])
+], CollaborationService);
+
+//# sourceMappingURL=collaboration.service.js.map
 
 /***/ }),
 
