@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CollaborationService } from '../../services/collaboration.service';
 import { ActivatedRoute, Params } from '@angular/router';
+import { DataService } from '../../services/data.service';
 declare const ace: any;
 
 
@@ -27,7 +28,7 @@ export class EditorComponent implements OnInit {
   def example:
     print('Hello Python')`
   };
-  constructor(private collaboration: CollaborationService, private route: ActivatedRoute) { }
+  constructor(private collaboration: CollaborationService, private route: ActivatedRoute, private dataService: DataService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -70,5 +71,11 @@ export class EditorComponent implements OnInit {
     this.output = '';
     const userCode = this.editor.session.getValue();
     console.log(userCode);
+    const data = {
+      usercode: userCode,
+      lang: this.language.toLocaleLowerCase()
+    };
+
+    this.dataService.buildAndRun(data).then(res => this.output = res);
   }
 }

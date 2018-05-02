@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Problem } from "app/data-structure/problem";
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-problem-list',
@@ -10,7 +11,7 @@ export class ProblemListComponent implements OnInit {
 
   problems: Problem[];
 
-  constructor(@Inject('data') private dataService) { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
     // this.problems = this.dataService.getProblems();

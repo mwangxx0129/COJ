@@ -16,6 +16,7 @@ const path = require('path');
 app.use(express.static(path.join(__dirname, '../public/')));
 
 app.use('/', indexRouter);
+app.use('/problem', indexRouter);
 app.use('/api/v1', restRouter);
 
 const server = http.createServer(app);

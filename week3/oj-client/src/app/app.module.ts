@@ -33,10 +33,7 @@ import { CollaborationService } from './services/collaboration.service';
     routing
   ],
   providers: [
-    {
-      provide: 'data',
-      useClass: DataService
-    },
+    DataService,
     CollaborationService
   ],
   bootstrap: [AppComponent]

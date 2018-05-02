@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Problem } from "app/data-structure/problem";
+import { DataService } from '../../services/data.service';
 
 
 @Component({
@@ -14,7 +15,7 @@ export class ProblemDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    @Inject('data') private dataService
+    private dataService: DataService
   ) { }
 
   ngOnInit() {
