@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mwangxx0129/COJ.svg?branch=master)](https://travis-ci.org/mwangxx0129/COJ)
+
 # Install VS code
 ```
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
